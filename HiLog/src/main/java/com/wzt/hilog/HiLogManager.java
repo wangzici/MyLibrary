@@ -1,28 +1,24 @@
 package com.wzt.hilog;
 
-public class HiLogManager {
-    private static volatile HiLogManager instance;
-    private HiLogConfig hiLogConfig;
+import androidx.annotation.NonNull;
 
-    private HiLogManager() {
+public class HiLogManager {
+    private static HiLogManager instance;
+    private HiLogConfig config;
+
+    private HiLogManager(HiLogConfig config) {
+        this.config = config;
     }
 
-    public void init(HiLogConfig hiLogConfig) {
-        this.hiLogConfig = hiLogConfig;
+    public static void init(@NonNull HiLogConfig config) {
+        instance = new HiLogManager(config);
     }
 
     public static HiLogManager getInstance() {
-        if (instance == null) {
-            synchronized (HiLogManager.class) {
-                if (instance == null) {
-                    instance = new HiLogManager();
-                }
-            }
-        }
         return instance;
     }
 
-    public HiLogConfig getHiLogConfig() {
-        return hiLogConfig;
+    public HiLogConfig getConfig() {
+        return config;
     }
 }

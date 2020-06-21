@@ -8,7 +8,6 @@ import com.wzt.hilog.printer.ConsolePrinter;
 import com.wzt.hilog.printer.IPrinter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MyApplication extends Application {
@@ -16,7 +15,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        HiLogManager.getInstance().init(new HiLogConfig(){
+        HiLogManager.init(new HiLogConfig(){
             @Override
             protected boolean needThreadPrint() {
                 return true;

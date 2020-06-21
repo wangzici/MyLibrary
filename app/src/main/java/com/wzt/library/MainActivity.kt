@@ -1,14 +1,22 @@
 package com.wzt.library
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.wzt.hilog.HiLog
+import android.view.View
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() ,View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        HiLog.v(null, "wzt")
+        tv_main.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v!!.id) {
+            R.id.tv_main -> startActivity(Intent(this, HiLogDemoActivity::class.java))
+        }
     }
 }
