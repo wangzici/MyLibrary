@@ -3,13 +3,18 @@ package com.wzt.hilog;
 import androidx.annotation.NonNull;
 
 import com.wzt.hilog.printer.HiLogPrinter;
-import com.wzt.hilog.utils.HiTrackUtils;
+import com.wzt.hilog.utils.HiStackTraceUtil;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class HiLog {
-    private static String DEFAULT_PACKAGE_NAME = "com.wzt";
+    private static final String HI_LOG_PACKAGE;
+
+    static {
+        String className = HiLog.class.getName();
+        HI_LOG_PACKAGE = className.substring(0, className.lastIndexOf('.'));
+    }
 
     public static void v(Object... objects) {
         log(HiLogType.V, objects);
@@ -81,7 +86,7 @@ public class HiLog {
                     .append('\n');
         }
         if (config.stackTraceDepth() > 0) {
-            final String stackTrace = config.HI_STACK_TRACE_FORMATTER.format(HiTrackUtils.cropTracks(new Throwable().getStackTrace(), config.stackTraceDepth(), DEFAULT_PACKAGE_NAME));
+            final String stackTrace = config.HI_STACK_TRACE_FORMATTER.format(HiStackTraceUtil.cropTracks(new Throwable().getStackTrace(), config.stackTraceDepth(), HI_LOG_PACKAGE));
             sb
                     .append(stackTrace)
                     .append('\n');
