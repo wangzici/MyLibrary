@@ -12,7 +12,8 @@ public class HiStackTraceFormatter implements HiLogFormatter<StackTraceElement[]
             for (int i = 0; i < data.length; i++) {
                 if (i == 0) {
                     sb.append("stackTrack: \n");
-                } else if (i != data.length - 1) {
+                }
+                if (i != data.length - 1) {
                     sb
                             .append("\t├ ")
                             .append(data[i].toString())
