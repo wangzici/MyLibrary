@@ -2,8 +2,11 @@ package com.wzt.hilog;
 
 import androidx.annotation.NonNull;
 
-import com.wzt.hilog.printer.IPrinter;
+import com.wzt.hilog.printer.HiLogPrinter;
 import com.wzt.hilog.utils.HiTrackUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class HiLog {
     private static String DEFAULT_PACKAGE_NAME = "com.wzt";
@@ -71,18 +74,38 @@ public class HiLog {
             return;
         }
         StringBuilder sb = new StringBuilder();
-        if (config.needThreadPrint()) {
-            sb.append(config.FORMATTER_THREAD.format(Thread.currentThread()));
+        if (config.includeThread()) {
+            final String threadInfo = config.HI_THREAD_FORMATTER.format(Thread.currentThread());
+            sb
+                    .append(threadInfo)
+                    .append('\n');
         }
-        if (config.maxDepth() > 0) {
-            sb.append(config.FORMATTER_STACK.format(HiTrackUtils.cropTracks(new Throwable().getStackTrace(), config.maxDepth(), DEFAULT_PACKAGE_NAME)));
+        if (config.stackTraceDepth() > 0) {
+            final String stackTrace = config.HI_STACK_TRACE_FORMATTER.format(HiTrackUtils.cropTracks(new Throwable().getStackTrace(), config.stackTraceDepth(), DEFAULT_PACKAGE_NAME));
+            sb
+                    .append(stackTrace)
+                    .append('\n');
         }
-        sb.append(config.FORMATTER_CONTENT.format(objects));
-        if (config.listOfPrinter() != null) {
-            for (IPrinter printer :
-                    config.listOfPrinter()) {
-                printer.print(type, tag, sb.toString());
+        String body = parseBody(objects, config);
+        sb.append(body).append('\n');
+        List<HiLogPrinter> printers = config.printers() != null ? Arrays.asList(config.printers()) : HiLogManager.getInstance().getPrinters();
+        if (printers == null) {
+            return;
+        }
+        for (HiLogPrinter printer : printers) {
+            printer.print(config, type, tag, sb.toString());
+        }
+    }
+
+    private static String parseBody(@NonNull Object[] contents, @NonNull HiLogConfig config) {
+        StringBuilder sb = new StringBuilder();
+        if (config.injectJsonParser() != null) {
+            sb.append(config.injectJsonParser().toJson(contents)).append('\n');
+        }else {
+            for (Object object : contents) {
+                sb.append(object.toString()).append('\n');
             }
         }
+        return sb.toString();
     }
 }

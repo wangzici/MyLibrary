@@ -1,28 +1,29 @@
 package com.wzt.hilog;
 
-import com.wzt.hilog.format.HiLogContentFormatter;
-import com.wzt.hilog.format.HiLogStackFormatter;
-import com.wzt.hilog.format.HiLogThreadFormatter;
-import com.wzt.hilog.printer.IPrinter;
-
-import java.util.List;
+import com.wzt.hilog.format.HiStackTraceFormatter;
+import com.wzt.hilog.format.HiThreadFormatter;
+import com.wzt.hilog.printer.HiLogPrinter;
 
 public abstract class HiLogConfig {
+    private static final int DEFAULT_MAX_LEN = 512;
     private static final int DEFAULT_DEPTH = 5;
     private static final String DEFAULT_TAG = "HiLog";
-    public HiLogContentFormatter FORMATTER_CONTENT = new HiLogContentFormatter();
-    public HiLogThreadFormatter FORMATTER_THREAD = new HiLogThreadFormatter();
-    public HiLogStackFormatter FORMATTER_STACK = new HiLogStackFormatter();
+    public HiThreadFormatter HI_THREAD_FORMATTER = new HiThreadFormatter();
+    public HiStackTraceFormatter HI_STACK_TRACE_FORMATTER = new HiStackTraceFormatter();
+
+    protected JsonParser injectJsonParser() {
+        return null;
+    }
 
     protected boolean enable() {
         return true;
     }
 
-    protected boolean needThreadPrint() {
+    protected boolean includeThread() {
         return false;
     }
 
-    protected int maxDepth() {
+    protected int stackTraceDepth() {
         return DEFAULT_DEPTH;
     }
 
@@ -30,7 +31,15 @@ public abstract class HiLogConfig {
         return DEFAULT_TAG;
     }
 
-    protected List<IPrinter> listOfPrinter() {
+    public int getMaxLength() {
+        return DEFAULT_MAX_LEN;
+    }
+
+    protected HiLogPrinter[] printers() {
         return null;
+    }
+
+    public interface JsonParser {
+        String toJson(Object[] src);
     }
 }

@@ -2,36 +2,31 @@ package com.wzt.library;
 
 import android.app.Application;
 
+import com.google.gson.Gson;
 import com.wzt.hilog.HiLogConfig;
 import com.wzt.hilog.HiLogManager;
-import com.wzt.hilog.printer.ConsolePrinter;
-import com.wzt.hilog.printer.IPrinter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.wzt.hilog.printer.HiConsolePrinter;
 
 public class MyApplication extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        HiLogManager.init(new HiLogConfig(){
+        HiLogManager.init(new HiLogConfig() {
             @Override
-            protected boolean needThreadPrint() {
-                return true;
+            protected int stackTraceDepth() {
+                return super.stackTraceDepth();
             }
 
             @Override
-            protected int maxDepth() {
-                return super.maxDepth();
+            protected JsonParser injectJsonParser() {
+                return new JsonParser() {
+                    @Override
+                    public String toJson(Object[] src) {
+                        return new Gson().toJson(src);
+                    }
+                };
             }
-
-            @Override
-            protected List<IPrinter> listOfPrinter() {
-                List<IPrinter> list = new ArrayList<>();
-                list.add(new ConsolePrinter());
-                return list;
-            }
-        });
+        }, new HiConsolePrinter());
     }
 }
