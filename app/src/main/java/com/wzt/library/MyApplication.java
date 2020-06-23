@@ -28,6 +28,8 @@ public class MyApplication extends Application {
                     }
                 };
             }
-        }, new HiConsolePrinter(), new HiFilePrinter(this));
+        },
+                new HiConsolePrinter(),
+                new HiFilePrinter(getCacheDir().getAbsolutePath(), 0));
     }
 }
