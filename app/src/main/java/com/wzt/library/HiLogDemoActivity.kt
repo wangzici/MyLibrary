@@ -23,6 +23,11 @@ class HiLogDemoActivity : AppCompatActivity() {
         viewPrinter?.viewProvider?.showFloatingView()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        HiLogManager.getInstance().removePrinter(viewPrinter)
+    }
+
     private fun printLog() {
         HiLog.log(object : HiLogConfig() {
             override fun includeThread(): Boolean {

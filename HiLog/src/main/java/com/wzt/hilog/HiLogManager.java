@@ -31,7 +31,9 @@ public class HiLogManager {
     }
 
     public void addPrinter(HiLogPrinter printer) {
-        printers.add(printer);
+        if (!printers.contains(printer)) {
+            printers.add(printer);
+        }
     }
 
     public void removePrinter(HiLogPrinter printer) {
