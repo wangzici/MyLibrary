@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.wzt.log.HiLogConfig;
 import com.wzt.log.HiLogManager;
 import com.wzt.log.printer.HiConsolePrinter;
+import com.wzt.log.printer.HiFilePrinter;
 
 public class MyApplication extends Application {
 
@@ -27,6 +28,6 @@ public class MyApplication extends Application {
                     }
                 };
             }
-        }, new HiConsolePrinter());
+        }, new HiConsolePrinter(), new HiFilePrinter(this));
     }
 }
