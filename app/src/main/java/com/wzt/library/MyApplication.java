@@ -3,9 +3,9 @@ package com.wzt.library;
 import android.app.Application;
 
 import com.google.gson.Gson;
-import com.wzt.hilog.HiLogConfig;
-import com.wzt.hilog.HiLogManager;
-import com.wzt.hilog.printer.HiConsolePrinter;
+import com.wzt.log.HiLogConfig;
+import com.wzt.log.HiLogManager;
+import com.wzt.log.printer.HiConsolePrinter;
 
 public class MyApplication extends Application {
 

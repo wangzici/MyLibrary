@@ -2,11 +2,11 @@ package com.wzt.library
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.wzt.hilog.HiLog
-import com.wzt.hilog.HiLogConfig
-import com.wzt.hilog.HiLogManager
-import com.wzt.hilog.HiLogType
-import com.wzt.hilog.printer.HiViewPrinter
+import com.wzt.log.HiLog
+import com.wzt.log.HiLogConfig
+import com.wzt.log.HiLogManager
+import com.wzt.log.HiLogType
+import com.wzt.log.printer.HiViewPrinter
 import kotlinx.android.synthetic.main.activity_hi_log_demo.*
 
 class HiLogDemoActivity : AppCompatActivity() {

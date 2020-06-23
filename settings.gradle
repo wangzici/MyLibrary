@@ -1,2 +1,2 @@
-include ':app', ':HiLog'
+include ':app', ':HiLibrary'
 rootProject.name='MyLibrary'
