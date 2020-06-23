@@ -91,14 +91,15 @@ public class HiLogViewProvider {
 
         TextView tvClose = new TextView(rootView.getContext());
         tvClose.setText("close");
-        tvClose.setGravity(Gravity.END);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.END;
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 closeLogView();
             }
         });
-        frameLayout.addView(tvClose);
+        frameLayout.addView(tvClose, params);
         return logView = frameLayout;
     }
 
